@@ -16,7 +16,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class S09_112_CreateAccount {
 
 	@Test
-	public void AccountCreation() {
+	public void accountCreation() {
 		/*
 		Test Steps 
 		1.Login to https://login.salesforce.com/
@@ -31,45 +31,46 @@ public class S09_112_CreateAccount {
 
 		*/
 		
-		//Download Chrome Driver and set the path
-		
 		WebDriverManager.chromedriver().setup();
 		
-		//Disable Notifications in Chrome Browser 
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--remote-allow-origins=*");
-		options.addArguments("--disable-notifications");
 		
-				
-		//Login to https://login.salesforce.com/
+		options.addArguments("--remote-allow-origins=*");
+		
+		options.addArguments("--disable-notifications");
+			
 		ChromeDriver driver = new ChromeDriver(options);
+		
 		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		
 		driver.get("https://login.salesforce.com/");
+		
 		driver.manage().window().maximize();
 		
-		driver.findElement(By.id("username")).sendKeys("binsy.salesforce@sandbox.com");
-		driver.findElement(By.id("password")).sendKeys("Basil2921");
+		driver.findElement(By.id("username")).sendKeys("hari.radhakrishnan@qeagle.com");
+		
+		driver.findElement(By.id("password")).sendKeys("Leaf@1234");
+		
 		driver.findElement(By.id("Login")).click();
 		
-		//Navigate to Account Object
 		driver.findElement(By.xpath("//div[@class='slds-r3']/following-sibling::div[1]")).click();
+		
 		driver.findElement(By.xpath("//button[text()='View All']")).click();
+		
 		driver.findElement(By.xpath("//p[text()='Sales']")).click();
 		
 		WebElement we = driver.findElement(By.xpath("//span[text()='Accounts']"));
+		
 		driver.executeScript("arguments[0].click();", we);
 		
 		driver.findElement(By.xpath("//div[text()='New']")).click();
 		
 		driver.findElement(By.xpath("//label[text()='Account Name']/following::input")).sendKeys("TestLeaf ");
 		
-		//click on search of parent account 
 		driver.findElement(By.xpath("//label[text()='Parent Account']/following::input")).click();
 		
-		//select the first parent account from the drop down 
 		driver.findElement(By.xpath("//*[text()='Recent Accounts']/following::*[1]")).click();
 		
-		//Send Value for Account Number 
 		driver.findElement(By.xpath("//label[text()='Account Number']/following::input")).sendKeys("324234545");
 		
 		driver.findElement(By.xpath("//label[text()='Account Site']/following::input[1]")).sendKeys("Mumbai");
@@ -81,31 +82,21 @@ public class S09_112_CreateAccount {
 		driver.findElement(By.xpath("//label[text()='Ownership']/following::*[1]")).click();
 		
 		driver.findElement(By.xpath("//span[text()='Public']")).click();
-				
-		
+	
 		driver.findElement(By.xpath("//button[text()='Save']")).click();
-		
-		//Navigate to details tab after saving details
 		
 		driver.findElement(By.xpath("//li[@title='Details']//a[1]")).click();
 		
         WebElement wes=	driver.findElement(By.xpath("(//*[text()='Account Name'])[2]/following::*[1]"));
 		
         String strAccountName=wes.getText();
-        
-        
-        
+            
         if (strAccountName.contains("TestLeaf"))
         	System.out.println("Account created successfully");
         else
         	System.out.println("Account not created ");
         
 		
-		
-		//driver.close();
-		
-		
-
 	}
 
 }
